@@ -21,7 +21,7 @@
 (define caro
   (lambda (p a)
     (fresh (d)
-      (== p (cons a d)))))
+      (== (cons a d) p))))
 
 (run* (r)
   (caro '(a c o r n) r)) ; '(a)
@@ -53,9 +53,9 @@
 ; '((grape a))
 
 (define cdro
-  (lambda (p a)
-    (fresh (x)
-      (== (cons x a) p))))
+  (lambda (p d)
+    (fresh (a)
+      (== (cons a d) p))))
 
 (run* (r)
   (fresh (v)
@@ -83,8 +83,8 @@
     (== 'a x))) ; '((a c o r n))
 
 (define conso
-  (lambda (p l a)
-    (== (cons p l) a)))
+  (lambda (a d p)
+    (== (cons a d) p)))
 
 (run* (l)
   (conso '(a b c) '(d e) l))
@@ -134,7 +134,7 @@
 
 (define nullo
   (lambda (p)
-    (== '() p)))
+    (== () p)))
 
 (run* (q)
   (nullo '(grape raisin pear))
