@@ -68,7 +68,7 @@
   (lambda (x l out)
     (conde
       ((nullo l) (== () out))
-      ((eq-caro x l) (cdro l out))
+      ((eq-caro l x) (cdro l out))
       ((fresh (res)
          (fresh (d)
            (cdro l d)
@@ -80,12 +80,13 @@
 ; (define rembero
 ;   (lambda (x l out)
 ;     (conde
-;       ((nullo l) (== () out))
-;       ((eq-caro x l) (cdro l out))
-;       ((fresh (a d res)
-;          (conso a d l)
-;          (rembero x d res)
-;          (conso a res out))))))
+;       ((nullo l) (== '() out))
+;       ((eq-caro l x) (cdro l out))
+;       (else
+;         (fresh (a d res)
+;           (conso a d l)
+;           (rembero x d res)
+;           (conso a res out))))))
 
 (run 1 (out)
   (fresh (y)
@@ -93,7 +94,61 @@
              (list 'a 'b y 'd 'peas 'e) out)))
 ;; '(a b d peas e)
 
-(display (run 1 (out)
+(run* (out)
   (fresh (y z)
-    (rembero y (list 'a 'b y 'd z 'e) out))))
-;; (('a 'b 'd _.0 'e) ('e))
+    (rembero y (list 'a 'b y 'd z 'e) out)))
+;; ('b 'a 'd _.0 'e)
+;; ('a 'b 'd _.0 'e)
+;; ('a 'b 'd _.0 'e)
+;; ('a 'b 'd _.0 'e)
+;; ('a 'b _.0 'd 'e)
+;; ('a 'b 'e 'd _.0)
+;; ('a 'b _.0 'd _.1 'e)
+
+(run* (r)
+  (fresh (y z)
+    (rembero y
+             (list y 'd z 'e)
+             (list y 'd 'e))
+    (== (list y z) r)))
+;; ('d 'd)
+;; ('d 'd)
+;; (_.0 _.0)
+;; ('e 'e)
+
+(run 13 (w)
+  (fresh (y z out)
+    (rembero
+      y
+      (append (list 'a 'b y 'd)
+              (cons z w))
+      out)))
+;; _.0
+;; _.0
+;; _.0
+;; _.0
+;; _.0
+;; ()
+;; (_.0 . _.1)
+;; (_.0 . ())
+;; (_.0 _.1 . _.2)
+;; (_.0 _.1 . ())
+;; (_.0 _.1 _.2 . _.3)
+;; (_.0 _.1 _.2 . ())
+;; and so on.
+
+(define surpriseo
+  (lambda (s)
+    (rembero s '(a b c) '(a b c))))
+
+(run* (r)
+  (== 'd r)
+  (surpriseo r))
+;; '((a b c))
+
+(run* (r)
+  (surpriseo r)) ;; (_.0)
+
+(display (run* (r)
+  (surpriseo r)
+  (== r 'a)))
