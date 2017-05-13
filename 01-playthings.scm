@@ -62,26 +62,26 @@
 
 (run* (r)
   (fresh (x y)
-    (== (cons x (cons y ())) r)))
+    (== (list x y) r)))
 ; ((_.0 _.1))
 
 (run* (s)
   (fresh (t u)
-    (== (cons t (cons u ())) s)))
+    (== (cons t (cons u '())) s)))
 ; ((_.0 _.1))
 
 (run* (r)
   (fresh (x)
     (let ((y x))
       (fresh (x)
-        (== (cons y (cons x (cons y ()))) r)))))
+        (== (list y x y) r)))))
 ; ((_.0 _.1 _.0))
 
 (run* (r)
   (fresh (x)
     (let ((y x))
       (fresh (x)
-        (== (cons x (cons y (cons x ()))) r)))))
+        (== (list x y x) r)))))
 ; ((_.0 _.1 _.0))
 
 (run* (q)
@@ -177,7 +177,7 @@
   (fresh (x y)
     (== 'split x)
     (== 'pea y)
-    (== (cons x (cons y ())) r)))
+    (== (list x y) r)))
 ; '((split pea))
 
 (run* (r)
@@ -186,7 +186,7 @@
       ((== 'split x) (== 'pea y))
       ((== 'navy x) (== 'bean y))
       (else U))
-    (== (cons x (cons y ())) r)))
+    (== (list x y) r)))
 ; ((split pea) (navy bean))
 
 (define teacup0
@@ -205,7 +205,7 @@
       ((teacup0 x) (== #t y) S)
       ((== #f x) (== #t y))
       (else U))
-    (== (cons x (cons y ())) r)))
+    (== (list x y) r)))
 ; ((tea #t) (cup #t) (#f #t))
 
 (run* (r)
@@ -214,7 +214,7 @@
       ((== y x) (fresh (x) (== z x)))
       ((fresh (x) (== y x)) (== z x))
       (else U))
-    (== (cons y (cons z ())) r)))
+    (== (list y z) r)))
 ; ((_.0 _.1) (_.0 _.1))
 
 (run* (r)
@@ -224,7 +224,7 @@
       ((fresh (x) (== y x)) (== z x))
       (else U))
     (== #f x)
-    (== (cons y (cons z ())) r)))
+    (== (list y z) r)))
 ; ((#f _.0) (_.0 #f))
 
 (run* (q)
