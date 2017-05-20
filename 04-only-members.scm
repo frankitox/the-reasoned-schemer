@@ -149,6 +149,6 @@
 (run* (r)
   (surpriseo r)) ;; (_.0)
 
-(display (run* (r)
+(run* (r)
   (surpriseo r)
-  (== r 'a)))
+  (== r 'a))
