@@ -1,5 +1,6 @@
 (load "mk.scm")
 (load "mkextraforms.scm")
+(load "01-playthings.scm")
 
 (define S succeed)
 (define U fail)
