@@ -189,7 +189,7 @@
     (== (list x y) r)))
 ; ((split pea) (navy bean))
 
-(define teacup0
+(define teacupo
   (lambda (x)
     (conde
       ((== 'tea x) S)
@@ -197,12 +197,12 @@
       (else U))))
 
 (run* (x)
-  (teacup0 x)) ; '(tea cup)
+  (teacupo x)) ; '(tea cup)
 
 (run* (r)
   (fresh (x y)
     (conde
-      ((teacup0 x) (== #t y) S)
+      ((teacupo x) (== #t y) S)
       ((== #f x) (== #t y))
       (else U))
     (== (list x y) r)))
