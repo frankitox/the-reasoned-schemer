@@ -52,9 +52,9 @@
     (== (list n m) t)))
 ;; (((1) (1)))
 
-;; TODO: See why this ain't working
 (run* (p)
   (*o (list 1 1 1) (list 1 1 1 1 1 1) p))
+;; ((1 0 0 1 1 1 0 1 1))
 
 (define =lo
   (lambda (n m)

@@ -156,9 +156,9 @@
       ((== 0 d) (== () m) (== n r))
       ((== 0 d) (== () n) (== m r) (poso m))
       ((== 1 d) (== () m) (addero 0 n '(1) r))
-      ((== 1 d) (== () n) (addero 0 '(1) m r) (poso m))
+      ((== 1 d) (== () n) (poso m) (addero 0 '(1) m r))
       ((== '(1) n) (== '(1) m) (fresh (a c)
-                                 (== r (cons a c))
+                                 (== r (list a c))
                                  (full-addero d 1 1 a c)))
       ((== '(1) n) (gen-addero d n m r))
       ((== '(1) m) (>1o n) (>1o r) (addero d '(1) n r))
@@ -166,7 +166,7 @@
 
 (define gen-addero
   (lambda (d n m r)
-    (fresh (a b c d e x y z)
+    (fresh (a b c e x y z)
       (== (cons a x) n)
       (== (cons b y) m) (poso y)
       (== (cons c z) r) (poso z)
